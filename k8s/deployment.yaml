@@ -14,9 +14,21 @@ spec:
       labels:
         app: eureka-server
     spec:
+      # Pod-level: 비-root 강제 + UID/GID 1000 (Dockerfile 의 spring 유저와 일치)
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        runAsGroup: 1000
+        fsGroup: 1000
       containers:
         - name: eureka-server
           image: asia-northeast3-docker.pkg.dev/trusta-market-id/trusta-registry-services/eureka-server:PLACEHOLDER
+          # Container-level: privilege escalation 차단 + 모든 Linux capability drop
+          # readOnlyRootFilesystem 은 Spring/Tomcat 의 work dir 검증 필요 → 후속 PR 에서.
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop: ["ALL"]
           ports:
             - containerPort: 8761
           env:

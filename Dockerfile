@@ -22,7 +22,12 @@ RUN gradle bootJar --no-daemon \
 FROM eclipse-temurin:21-jre-alpine
 WORKDIR /app
 
-COPY --from=builder /workspace/app.jar /app/app.jar
+# Non-root 실행 — UID 1000 (K8s securityContext.runAsUser 와 일치).
+RUN addgroup -g 1000 -S spring && adduser -u 1000 -S spring -G spring
+
+COPY --from=builder --chown=spring:spring /workspace/app.jar /app/app.jar
+
+USER spring:spring
 
 EXPOSE 8761
 
