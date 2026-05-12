@@ -1,0 +1,6 @@
+# K8s 환경 전용 override (SPRING_PROFILES_ACTIVE=k8s 일 때만 로드).
+# 로컬 dev 에서는 사용되지 않음 — application.yml 의 localhost 설정 그대로 유지.
+eureka:
+  instance:
+    # K8s Pod 환경에서 hostname 대신 Pod IP 로 advertise (base 의 hostname: localhost 무력화).
+    prefer-ip-address: true
