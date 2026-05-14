@@ -36,11 +36,11 @@ spec:
               value: "k8s"
           resources:
             requests:
-              cpu: 500m
-              memory: 1Gi
+              cpu: 700m
+              memory: 2Gi
             limits:
               cpu: 1000m
-              memory: 2Gi
+              memory: 2500Mi
           # startupProbe — 시작 페이즈 분리. 5s × 30 = 150s 까지 시작 대기.
           startupProbe:
             httpGet:
