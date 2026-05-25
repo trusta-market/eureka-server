@@ -19,6 +19,14 @@ spec:
       labels:
         app: eureka-server
     spec:
+      affinity:
+        podAntiAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            - labelSelector:
+                matchExpressions:
+                  - key: app
+                    operator: Exists
+              topologyKey: kubernetes.io/hostname
       # Pod-level: 비-root 강제 + UID/GID 1000 (Dockerfile 의 spring 유저와 일치)
       securityContext:
         runAsNonRoot: true
