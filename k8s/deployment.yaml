@@ -48,7 +48,7 @@ spec:
             - name: SPRING_PROFILES_ACTIVE
               value: "dev"
             - name: SPRING_CONFIG_IMPORT
-              value: "configserver:http://config-server"
+              value: "optional:configserver:http://config-server"
           resources:
             requests:
               cpu: 500m
